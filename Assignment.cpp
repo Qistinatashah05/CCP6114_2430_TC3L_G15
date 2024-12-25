@@ -15,15 +15,6 @@
 // Member_3:
 // Member_4:
 // ********************************************************* #include <iostream>
-#include <fstream>
-#include <iostream>
-#include <iomanip>
-#include <string>
-#include <vector>
-#include <map>
-#include <algorithm>
-using namespace std;
-
 // I/O (iostream, fstream, etc.)
 //Data structures (vector, map, etc.)
 //Algorithms (sort, find, etc.)
@@ -34,89 +25,99 @@ using namespace std;
 //ofstream opens file for writing
 
 // Define a struct for rows with a string and an integer
-struct Customer {
-    int customer_id;  // Integer for the id
-    string customer_name;     // TExt for the name
-    string customer_city;
-    string customer_state;
-    string customer_country;
-    string customer_phone;
-    string customer_email;
+// Define a structure to represent a customer
+#include <fstream>
+#include <iostream>
+#include <iomanip>
+#include <string>
+#include <vector>
+#include <map>
+using namespace std;
+
+
+struct Table {
+    vector<string> columns;
+    vector<vector<string>> rows;
 };
 
-void create_fileoutput()
-{
-    cout << ">CREATE fileOutput1.txt;"<< endl;
+// Declare the database map globally
+map<string, Table> database;
+
+void create_fileoutput() {
+    cout << ">CREATE fileOutput1.txt;" << endl;
 }
 
-void database_fileInput(const string& pathfile)
-{
-
-    cout << ">DATABASES;" <<endl;
+void database_fileInput(const string& pathfile) {
+    cout << ">DATABASES;" << endl;
     cout << pathfile << endl;
-
 }
 
+void create_table() {
+    cout << "> CREATE TABLE customer(" << endl;
+    cout << "customer_id INT," << endl;
+    cout << "customer_name TEXT," << endl;
+    cout << "customer_city TEXT," << endl;
+    cout << "customer_state TEXT," << endl;
+    cout << "customer_country TEXT," << endl;
+    cout << "customer_phone TEXT," << endl;
+    cout << "customer_email TEXT" << endl;
+    cout << ");" << endl;
 
-void create_table(){
-
-    cout << "CREATE TABLE customer(" <<endl;
+    Table customerTable;
+    customerTable.columns = {"customer_id", "customer_name", "customer_city", "customer_state",
+                             "customer_country", "customer_phone", "customer_email"};
+    database["customer"] = customerTable;
 }
 
+void insertRow(int id, string name, string city, string state, string country, string phone, string email) {
+    if (database.find("customer") == database.end()) {
+        cout << "Error: Table 'customer' does not exist.\n";
+        return;
+    }
 
+    cout << "> TABLES;" << endl;
+    cout << "customer" << endl;
+    vector<string> row = {to_string(id), name, city, state, country, phone, email};
+    database["customer"].rows.push_back(row);
+    cout << ">INSERT INTO customer"<< "(customer_id,customer_name,customer_city,customer_state,customer_country,customer_phone,customer_email) VALUES (" << id << ", '" << name << "', '" << city << "', '"
+         << state << "', '" << country << "', '" << phone << "', '" << email << "'));\n";
+}
 
+void selectFromTable() {
+    if (database.find("customer") == database.end()) {
+        cout << "Error: Table 'customer' does not exist.\n";
+        return;
+    }
 
+    cout << "> SELECT * FROM customer;\n";
+    cout << "customer_id,customer_name,customer_city,customer_state,customer_country,customer_phone,customer_email" << endl;
 
+    Table& table = database["customer"];
+
+    for (const vector<string>& row : table.rows) {
+        for (size_t i = 0; i < row.size(); ++i) {
+            cout << row[i];
+            if (i < row.size() - 1) {
+                cout << ","; // Add a comma between values
+            }
+        }
+        cout << endl;
+    }
+}
 
 int main() {
-
-    string filePath1 ="C:\CCP6114_2430_TC3L_G15\fileInput1.mdb";
-
-    create_fileoutput();
-    database_fileInput(filePath1);
-    create_table();
-
-
-    cout << "Press Enter to continue to the next file...";
-    cin.get(); // Wait for user input
-
-    string filePath2 ="C:\CCP6114_2430_TC3L_G15\fileInput2.mdb";
+    string filePath = "C:/CCP6114_2430_TC3L_G15/fileInput1.mdb";
 
     create_fileoutput();
-    database_fileInput(filePath2);
+    database_fileInput(filePath);
     create_table();
 
-    cout << "Press Enter to continue to the next file...";
-    cin.get(); // Wait for user input
+    insertRow(1, "LucasScott", "NewYork", "NewYork", "USA", "123-456-7890", "lucas.scott@example.com");
+    insertRow(2, "SarahSmith", "LosAngeles", "California", "USA", "987-654-3210", "sarah.smith@example.com");
+    insertRow(3, "MichaelKeaton", "Chicago", "Illinois", "USA", "555-123-4567", "michael.keaton@example.com");
+    insertRow(4, "BrookeDavis", "SanFrancisco", "California", "USA", "333-444-5555", "brooke.davis@example.com");
 
-    string filePath3 ="C:\CCP6114_2430_TC3L_G15\fileInput3.mdb";
-
-    create_fileoutput();
-    database_fileInput(filePath3);
-    create_table();
+    selectFromTable();
 
     return 0;
-
-}
-
-vector <string> getVector(string filename)
-{
-    string value;
-    vector<string> values;
-    ifstream inputFile;
-    inputFile.open(filename);
-    if (inputFile.is_open() == true )
-        while ( getline (inputFile, value))
-    {
-        //cout << value <<endl;
-        values.push_back(value);
-    }
-    else
-    {
-        cout<< "Error message: Cannot open the file" << endl;
-        exit(-1);
-
-    }
-    return values;
-
 }
