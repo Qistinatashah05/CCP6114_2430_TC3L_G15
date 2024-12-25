@@ -1,7 +1,7 @@
-#include<fstream>
-#include<iostream>
-#include<iomanip>
-#include<string>
+#include <fstream>
+#include <iostream>
+#include <iomanip>
+#include <string>
 #include <vector>
 #include <map>
 #include <algorithm>
@@ -24,10 +24,10 @@ void create_fileoutput()
     cout <<">CREATE fileOutput3.txt"<< endl;
 }
 
-void database_fileInput(const string & pathfile)
+void database_fileInput(const string & filePath)
 {
     cout << ">DATABASES;" << endl;
-    cout << pathfile << endl;
+    cout << filePath << endl;
 }
 
 void create_table(){
@@ -37,13 +37,11 @@ void create_table(){
 
 int main() {
 
-    string filePath ="C:\HUGE IT\CCP6114_2430_TC3L_G15\fileInput3.mdb";
+    string filePath ="C:\\HUGE IT\\CCP6114_2430_TC3L_G15\\fileInput3.mdb";
 
     create_fileoutput();
     database_fileInput(filePath);
     create_table();
-
-
 
     return 0;
 
@@ -55,18 +53,15 @@ vector <string> getVector(string filename)
     vector<string> values;
     ifstream inputFile;
     inputFile.open(filename);
-    if (inputFile.is_open() == true )
-        while ( getline (inputFile, value))
-    {
-        //cout << value <<endl;
-        values.push_back(value);
-    }
-    else
-    {
+    if (inputFile.is_open()) {
+        while (getline(inputFile, value)) {
+            //cout << value <<endl;
+            values.push_back(value);
+        }
+    } else {
         cout<< "Error message: Cannot open the file" << endl;
         exit(-1);
-
     }
-    return values;
-
+    return values;
 }
+
