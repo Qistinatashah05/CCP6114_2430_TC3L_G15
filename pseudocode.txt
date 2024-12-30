@@ -1,0 +1,84 @@
+START
+
+
+//Define Customer
+DEFINE customer_id as INT
+DEFINE customer_name, customer_city, customer_state, customer_country, customer_phone, customer_email as STRING
+
+//DEFINE Structure: Table
+DEFINE Columns as Vector of strings
+DEFINE Rows as Vector of vector of strings
+
+//Declare Global Database
+Map<string, Table>
+
+//Functions to create fileOutput
+FUNCTION create_fileoutput
+        PRINT "CREATE fileOutput1.txt;"
+END FUNCTION
+
+//Functions for filepath
+FUNCTION database_fileInput(filePath):
+        PRINT "DATABASES;"
+        PRINT filePath
+END FUNCTION
+
+//Function to create table
+FUNCTION create_table
+        PRINT SQL command to create table NAMED Customer
+        DEFINE Table with columns AS
+        [ "customer_id" : "integer",
+		  "customer_name" : "text",
+		  "customer_city" : "text",
+		  "customer_state" : "text",
+		  "customer_country" : "text",
+		  "customer_phone" : "integer",
+		  "customer_email" : "text"]
+
+        ADD Table to database["customer"]
+END FUNCTION
+
+//Function to insert rows
+FUNCTION insertRow(id, name, city, state, country, phone, email):
+        IF "customer" table does not exist:
+            PRINT "Error: Table 'customer' does not exist.\n"
+                 RETURN
+        PRINT SQL INSERT command
+        ADD row to database["customer"].rows
+
+//Function to select from table
+FUNCTION selectFromTable:
+        IF "customer" table does not exist:
+            PRINT "Error: Table 'customer' does not exist.\n"
+                 RETURN
+        PRINT SQL SELECT command
+        PRINT Columns
+        PRINT Rows
+
+//View table in csv mode
+FOR EACH row IN table.rows DO
+    FOR i FROM 0 TO size of row - 1 DO
+        PRINT row[i]
+        IF i IS NOT the last index THEN
+            PRINT ","
+        END IF
+    END FOR
+    PRINT a new line
+END FOR
+
+
+//MAIN FUNCTION
+    DECLARE filePath AS STRING = "C:/CCP6114_2430_TC3L_G15/fileInput1.mdb"
+
+    CALL create_fileoutput()
+    CALL database_fileInput(filePath)
+    CALL create_table()
+
+    CALL insertRow(1, "LucasScott", "NewYork", "NewYork", "USA", "123-456-7890", "lucas.scott@example.com")
+    CALL insertRow(2, "SarahSmith", "LosAngeles", "California", "USA", "987-654-3210", "sarah.smith@example.com")
+    CALL insertRow(3, "MichaelKeaton", "Chicago", "Illinois", "USA", "555-123-4567", "michael.keaton@example.com")
+    CALL insertRow(4, "BrookeDavis", "SanFrancisco", "California", "USA", "333-444-5555", "brooke.davis@example.com")
+
+    CALL selectFromTable()
+
+RETURN 0
