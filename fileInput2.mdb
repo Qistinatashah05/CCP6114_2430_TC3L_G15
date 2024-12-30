@@ -24,5 +24,14 @@ VALUES(3,'name3','state3','city3','country3','phone3','email3');
 INSERT INTO
 customer(customer_id, customer_name, customer_state, customer_country, customer_phone, customer_email)
 VALUES(4,'name4','state4','city4','country4','phone4','email4');
-
 SELECT * FROM customer;
+
+TABLES;
+
+UPDATE customer SET customer_email='email333' WHERE customer_id=3
+SELECT * FROM customer;
+
+DELETE FROM customer WHERE customer_id=4;
+SELECT * FROM customer;
+
+SELECT COUNT(*) FROM customer;
