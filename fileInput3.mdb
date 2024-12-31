@@ -1,0 +1,37 @@
+CREATE fileOutput3.txt;
+DATABASES;
+
+CREATE TABLE customer(
+product_id TEXT,
+product_name TEXT,
+product_category TEXT,
+product_price FLOAT,
+stock_quantity INT,
+supplier_name TEXT,
+supplier_phone TEXT,
+);
+TABLES;
+
+INSERT INTO
+customer(product_id, product_name, product_category, product_price, stock_quantity, customer_email)
+VALUES(1,'name1','state1','city1',;country1','phone1','email1');
+INSERT INTO
+customer(product_id, product_name, product_category, product_price, stock_quantity, customer_email)
+VALUES(2,'name2','state2','city2','country2','phone2','email2');
+INSERT INTO
+customer(product_id, product_name, product_category, product_price, stock_quantity, customer_email)
+VALUES(3,'name3','state3','city3','country3','phone3','email3');
+INSERT INTO
+customer(product_id, product_name, product_category, product_price, stock_quantity, customer_email)
+VALUES(4,'name4','state4','city4','country4','phone4','email4');
+SELECT * FROM customer;
+
+TABLES;
+
+UPDATE customer SET customer_email='email333' WHERE customer_id=3
+SELECT * FROM customer;
+
+DELETE FROM customer WHERE customer_id=4;
+SELECT * FROM customer;
+
+SELECT COUNT(*) FROM customer;
